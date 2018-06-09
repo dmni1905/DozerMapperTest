@@ -1,14 +1,18 @@
-import config.OEMappingBuilder;
 import config.model.FromOrder;
 import config.model.ToOrder;
-import org.dozer.DozerBeanMapper;
+import org.dozer.DozerBeanMapperBuilder;
 import org.dozer.Mapper;
+import org.dozer.loader.api.BeanMappingBuilder;
+import org.dozer.loader.api.TypeMappingOptions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
@@ -24,8 +28,17 @@ public class DozerMapTest {
 
     @BeforeClass
     public static void before() throws Exception {
-        mapper = new DozerBeanMapper();
-        ((DozerBeanMapper) mapper).addMapping(new OEMappingBuilder());
+        BeanMappingBuilder builder = new BeanMappingBuilder() {
+            protected void configure() {
+                mapping(FromOrder.class, ToOrder.class,
+                        TypeMappingOptions.oneWay())
+                        .fields("fromItems", "toItems");
+            }
+        };
+
+        mapper = DozerBeanMapperBuilder.create()
+                .withMappingBuilder(builder)
+                .build();
     }
 
     @Test
