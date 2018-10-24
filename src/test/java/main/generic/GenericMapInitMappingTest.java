@@ -74,7 +74,7 @@ public class GenericMapInitMappingTest extends ADozerTest {
                 toOrderItem.getCharacteristicValues().get(BigInteger.ZERO))
         );
 
-        // check Map.get(BigInteger.ZERO)
+        // check Map.get(BigInteger.ONE)
         assertNotNull(fromOrderItem.getCharacteristicValues().get(BigInteger.ONE));
         assertNotNull(toOrderItem.getCharacteristicValues().get(BigInteger.ONE));
         assertTrue(checkFromClass(
