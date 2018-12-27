@@ -1,7 +1,6 @@
 package config.model.to.characteristic;
 
 import java.math.BigInteger;
-import java.util.Objects;
 
 public abstract class ToAbstractCharacteristicValue<T> {
     private BigInteger id;

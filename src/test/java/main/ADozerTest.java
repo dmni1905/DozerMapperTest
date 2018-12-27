@@ -1,18 +1,20 @@
 package main;
 
+import config.model.from.BooleanTestFrom;
 import config.model.from.FromOrder;
 import config.model.from.FromOrderItem;
 import config.model.from.characteristic.FromAbstractCharacteristicValue;
 import config.model.from.characteristic.FromBigIntegerCharacteristicValue;
 import config.model.from.characteristic.FromMultipleCharacteristicValue;
 import config.model.from.characteristic.FromStringCharacteristicValue;
+import config.model.to.BooleanTestTo;
 import config.model.to.ToOrder;
 import config.model.to.ToOrderItem;
 import config.model.to.characteristic.ToAbstractCharacteristicValue;
 import config.model.to.characteristic.ToBigIntegerCharacteristicValue;
 import config.model.to.characteristic.ToMultipleCharacteristicValue;
 import config.model.to.characteristic.ToStringCharacteristicValue;
-import org.dozer.DozerBeanMapperBuilder;
+import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
 import org.dozer.loader.api.TypeMappingOptions;
@@ -27,6 +29,7 @@ public abstract class ADozerTest {
     protected static Mapper mapper;
     private static Map<Class, Class> oeMapping = new HashMap<>();
     static {
+        oeMapping.put(BooleanTestFrom.class, BooleanTestTo.class);
         oeMapping.put(FromOrder.class, ToOrder.class);
         oeMapping.put(FromOrderItem.class, ToOrderItem.class);
         oeMapping.put(FromAbstractCharacteristicValue.class, ToAbstractCharacteristicValue.class);
@@ -63,9 +66,14 @@ public abstract class ADozerTest {
             }
         };
 
-        mapper = DozerBeanMapperBuilder.create()
-                .withMappingBuilder(builder)
-                .build();
+        // 6.2.0
+//        mapper = DozerBeanMapperBuilder.create()
+//                .withMappingBuilder(builder)
+//                .build();
+
+        // 5.5.1
+        mapper = new DozerBeanMapper();
+        ((DozerBeanMapper) mapper).addMapping(builder);
     }
 
     protected boolean checkFromClass(Object fromObject, Object toObject){
